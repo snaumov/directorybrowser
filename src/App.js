@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './App.sass';
+import './App.css';
 import DirListContainer from './frontend/containers/dirListContainer.jsx';
 
 class App extends Component {

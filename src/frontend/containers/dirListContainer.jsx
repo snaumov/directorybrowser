@@ -1,30 +1,41 @@
 import React, { Component } from 'react';
 import DirList from '../components/dirList'
 import { connect } from 'react-redux'
-import { listDirectory } from '../actions';
+import { listDirectory, browseFile, jumpUp } from '../actions';
 
 class DirListComponent extends Component {
     constructor(props){
         super(props);
-        console.log(this.props)
+        this.openDirectory = this.openDirectory.bind(this);
+        this.browseFile = this.browseFile.bind(this);
+        this.jumpUp = this.jumpUp.bind(this);
     }
     componentDidMount(){
-        console.log(!this.props.listing.directoryListing.length)
         if(!this.props.listing.directoryListing.length && this.props.listing.currentPath === './') {
-            debugger;
             this.props.dispatch(listDirectory('./'))
         }
     }
     componentWillReceiveProps(nextProps){
-        debugger;
         if(!nextProps.listing.directoryListing.length && nextProps.listing.currentPath === './') {
-            debugger;
             this.props.dispatch(listDirectory('./'))
         }
     }
+
+    openDirectory(dirName) {
+        this.props.dispatch(listDirectory(this.props.listing.currentPath + '/' + dirName));
+    }
+
+    browseFile(fileName) {
+        this.props.dispatch(browseFile(this.props.listing.currentPath + '/' + fileName));
+    }
+
+    jumpUp() {
+        this.props.dispatch(jumpUp(this.props.listing.currentPath));
+    }
+
     render() {
         return (
-            <DirList directoryListing={this.props.listing.directoryListing}/>
+            <DirList openDirectory={this.openDirectory} directoryListing={this.props.listing.directoryListing} fileContent={this.props.listing.fileContent} browseFile={this.browseFile} jumpUpDisabled={this.props.listing.jumpUpDisabled} jumpUp={this.jumpUp} />
         );
     }
 }

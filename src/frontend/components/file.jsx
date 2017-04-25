@@ -3,7 +3,7 @@ import React from 'react';
 const File = (props) => {
     return (
         <div className="file">
-            {props.fileName};
+            <span className="fileText" onClick={() => props.browseFile(props.fileName)}>{props.fileName}</span>
         </div>
     );
 };

@@ -2,6 +2,7 @@ const http = require('http');
 var express = require('express')
 const helpers = require('./helpers');
 const WebSocket = require('ws');
+const fs = require('fs');
 
 var app = express()
 
@@ -35,6 +36,16 @@ app.get('/', function (req, res) {
 app.get('/directorylist', (req, res) => {
     console.log(req.query);
     helpers.listDirectoryContent(req.query.path).then(dirContent => res.json(dirContent));
+})
+
+app.get('/openfile', (req, res) => {
+    try{
+        fs.createReadStream(req.query.path).pipe(res);
+    } catch (e) {
+        res.write(e);
+        res.end();
+    }
+    
 })
 
 

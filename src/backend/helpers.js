@@ -37,10 +37,16 @@ function listDirectoryContent(path) {
     return new Promise((res, rej) => {
         fs.readdir(path, (err, files) => {
             if (err) rej('cannot list directory, error: ', err);
-            var entityWithType = files.map(entity => {
-                return {entity: entity, entityType: checkEntityTypeSync(path + '/' + entity)}
-            })
-            res(entityWithType);
+            try{
+                var entityWithType = files.map(entity => {
+                    return {entity: entity, entityType: checkEntityTypeSync(path + '/' + entity)}
+                })
+                res(entityWithType);
+            } catch (e) {
+                rej(e);
+            }
+            
+            
         });
     })
 }
