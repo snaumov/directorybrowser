@@ -14,7 +14,7 @@ function DirList (props) {
             <JumpUpButton jumpUpDisabled = {props.jumpUpDisabled} jumpUp={props.jumpUp}/>
             {directories}
             {files}
-            {props.fileContent ? <FileContent fileContent={props.fileContent}/> : undefined}
+            <FileContent fileContent={props.fileContent}/>
         </div>
     );
 

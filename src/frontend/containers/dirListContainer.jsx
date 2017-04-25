@@ -17,6 +17,7 @@ class DirListComponent extends Component {
     }
     componentWillReceiveProps(nextProps){
         if(!nextProps.listing.directoryListing.length && nextProps.listing.currentPath === './') {
+            debugger;
             this.props.dispatch(listDirectory('./'))
         }
     }
@@ -34,6 +35,7 @@ class DirListComponent extends Component {
     }
 
     render() {
+        console.log(this.props.listing);
         return (
             <DirList openDirectory={this.openDirectory} directoryListing={this.props.listing.directoryListing} fileContent={this.props.listing.fileContent} browseFile={this.browseFile} jumpUpDisabled={this.props.listing.jumpUpDisabled} jumpUp={this.jumpUp} />
         );

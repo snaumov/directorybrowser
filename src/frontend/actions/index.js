@@ -2,6 +2,8 @@ export const LIST_DIRECTORY = 'LIST_DIRECTORY';
 export const UPDATE_DIRECTORY_LISTING = 'UPDATE_DIRECTORY_LISTING';
 export const UPDATE_FILE_CONTENT = 'UPDATE_FILE_CONTENT';
 export const JUMP_UP = 'JUMP_UP'
+export const JUMP_UP_DISABLE = 'JUMP_UP_DISABLE'
+export const JUMP_UP_ENABLE = 'JUMP_UP_ENABLE'
 
 const BACKEND_ADDR = 'http://localhost:4000'
 
@@ -9,7 +11,14 @@ export function listDirectory(path) {
     return dispatch => {
         return fetch(BACKEND_ADDR + '/directorylist?path=' + path)
             .then(response => response.json())
-            .then(json => dispatch(updateDirectoryListing(json, path)));
+            .then(json => {
+                    dispatch(updateDirectoryListing(json, path));
+                    if(path === './') {
+                        dispatch(jumpUpDisable());
+                    } else {
+                        dispatch(jumpUpEnable());
+                    }
+            });
     }
 }
 
@@ -61,5 +70,17 @@ export function jumpUp(currentPath) {
     const newPath = currentPath.slice(0, currentPath.lastIndexOf('/'));
     return dispatch => {
         dispatch(listDirectory(newPath));
+    }
+}
+
+export function jumpUpDisable() {
+    return {
+        type: JUMP_UP_DISABLE,
+    }
+}
+
+export function jumpUpEnable() {
+    return {
+        type: JUMP_UP_ENABLE,
     }
 }

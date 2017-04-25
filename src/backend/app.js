@@ -30,7 +30,7 @@ app.use(function (req, res, next) {
 
 
 app.get('/', function (req, res) {
-    helpers.listDirectoryContent('./').then(dirContent => res.json(dirContent));
+    helpers.listDirectoryContent('/').then(dirContent => res.json(dirContent));
 })
 
 app.get('/directorylist', (req, res) => {
