@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import DirList from '../components/dirList'
 import { connect } from 'react-redux'
 import { listDirectory, browseFile, jumpUp } from '../actions';
+import { getDirectoriesAndFiles } from '../selectors';
 
 class DirListComponent extends Component {
     constructor(props){
@@ -17,7 +18,6 @@ class DirListComponent extends Component {
     }
     componentWillReceiveProps(nextProps){
         if(!nextProps.listing.directoryListing.length && nextProps.listing.currentPath === './') {
-            debugger;
             this.props.dispatch(listDirectory('./'))
         }
     }
@@ -35,9 +35,9 @@ class DirListComponent extends Component {
     }
 
     render() {
-        console.log(this.props.listing);
+        
         return (
-            <DirList openDirectory={this.openDirectory} directoryListing={this.props.listing.directoryListing} fileContent={this.props.listing.fileContent} browseFile={this.browseFile} jumpUpDisabled={this.props.listing.jumpUpDisabled} jumpUp={this.jumpUp} />
+            <DirList openDirectory={this.openDirectory} directories={this.props.directoriesAndFiles.directories} files={this.props.directoriesAndFiles.files} directoryListing={this.props.listing.directoryListing} fileContent={this.props.listing.fileContent} browseFile={this.browseFile} jumpUpDisabled={this.props.listing.jumpUpDisabled} jumpUp={this.jumpUp} />
         );
     }
 }
@@ -45,6 +45,7 @@ class DirListComponent extends Component {
 const mapStateToProps = (state) => {
     return {
         listing: state,
+        directoriesAndFiles: getDirectoriesAndFiles(state),
     }
 }
 
